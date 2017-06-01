@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NYTimes Search</title>
+
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <style>
+    #top>.container>.row {
+      background-color: darkblue;
+      color: white;
+      padding-bottom: 20px;
+    }
+    
+    .boxheader {
+      background-color: black;
+      color: white;
+      padding: 5px;
+    }
+
+    .box {
+      outline-style: solid;
+      outline-color: #eee;
+      outline-width: 1px;
+      margin-top: 40px;
+    }
+  .article {
+    outline-style:solid;
+    outline-color:#eee;
+    outline-width:1px;
+  }
+  .par {
+    margin-top:5px;
+  }
+      
+      #submitButton, #clearButton {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+      div {
+        border-radius: 5px;
+      }
+      
+    input {
+      border-radius: 5px;
+    }
+      
+      #numberOfArticle{
+        height: 30px;
+        width: 30px; 
+        background: black; 
+        color: white;
+      }
+      
+      
+  </style>
+  
+</head>
+<body>
+  
+  <header id='top'>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <h1><i class="fa fa-newspaper-o" aria-hidden="true"></i> New York Times Search</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+   
+  <form class="container box" id='firstForm'>
+    <div class ="row">
+      <div class="col-sm-12 boxheader">
+        <i class="fa fa-newspaper-o" aria-hidden="true"></i> Search Parameters
+      </div>
+    </div>
+     <div class = "row">
+        <div class="col-sm-12">
+              <p class="par">Search Term</p>
+          <input id="Search-Term" type=text placeholder="Cuperman"></input>
+      </div>
+    </div>
+    <div class = "row">
+      <div class="col-sm-12">
+        <p class="par">Number of Records to Retrieve</p>
+        <input id="Number" type=number placeholder=5></input>
+    </div>
+    </div>
+  
+      
+    <div class = "row">
+      <div class="col-sm-12"> 
+        <p class="par">Start Year (Optional)</p>
+        <input id="start" type=number placeholder=2015></input>
+      </div>
+    </div>
+  
+    <div class = "row">
+      <div class="col-sm-12"> 
+        <p class="par">End Year (Optional)</p>
+        <input id="end" type=number placeholder=2017></input>
+      </div>
+    </div>
+
+    <div class = "row">
+      <div class="col-sm-12"> 
+       <button id="submitButton">Search</button>
+       <button id="clearButton">Clear Results</button>    
+      </div>
+    </div>
+  </form>
+
+
+  <div class="container box" id='resultsDisplay'>
+    <div class="row">
+      <div class="col-sm-12 boxheader">
+        <i class="fa fa-newspaper-o" aria-hidden="true"></i> Top Articles
+      </div>
+    </div>
+    <div class="row" id="newsDisplay">
+      <div class="col-sm-12 article">
+        <div id="numberOfArticle">1</div>
+        <p id="nameNews">here we display news</p>
+        <div id="urlNews">here goes the brief info and link</div>
+      </div>
+    </div>
+  </div>
+  
+<script>
+    
+  // global variables
+  var searchTitle = "poop nuggets in articles";
+  var startYear = "1969";
+  var endYear = "2042";
+  var resultNum = 42;
+    // number of articles to be returned. A for-loop will run for this amount and will then display the first of these returned from the saved API query
+
+function runSearch() {
+  $("#resultsDisplay").html("");
+  $("#newsDisplay").html("");
+    var urlQuery = "https://api.nytimes.com/svc/search/v2/articlesearch.json" + "?q=" + searchTitle + "&begin_date=" + startYear + "&end_date=" + endYear + "&" + apiKey;
+      var apiKey = "api-key=9e893f8545284a63935161488bb0884b"
+        $.ajax({
+          url: urlQuery,
+          method: 'GET',
+        }).done(function(result) {
+          console.log(result);
+//        }).fail(function(err) {
+//        throw err;
+//        });
+        searchTitle = $().
+        startYear =
+        endYear =
+        resultNum =
+        for (var i = 0; i < resultNum; i++) {
+              var title = result.response.docs[i].headline.main;
+              var copywrite = result.response.docs[i].source;
+              var sections = result.response.docs[i].section_name;
+              var dateOfArticle = result.response.docs[i].pub_date;
+              var url = result.response.docs[i].web_url;
+              console.log(title, "--", copywrite, "--", sections, "--", date, "--", url);
+              $("#resultsDisplay").prepend(title);
+              $("#resultsDisplay").prepend(copywrite);
+              $("#resultsDisplay").prepend(sections);
+              $("#resultsDisplay").prepend(dateOfArticle);
+              $("#resultDisplay").prepend(url);
+    }
+  })
+}
+                        
+function clearFunction () {
+  $("#resultsDisplay").html("");
+  $("#newsDisplay").html("");
+}
+
+$(document).ready(function() {
+      $("#clearButton").on("click", function(){
+    clearFunction();
+    });
+        $("#submitButton").on("click", function(){
+    runSearch();
+    });
+  });
+
+
+
+</script>
+</body>
+</html>
